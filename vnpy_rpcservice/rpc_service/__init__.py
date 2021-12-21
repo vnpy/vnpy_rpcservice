@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from vnpy.trader.app import BaseApp
+
 from .engine import RpcEngine, APP_NAME
 
 
