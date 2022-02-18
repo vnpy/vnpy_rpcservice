@@ -18,6 +18,8 @@ class RpcGateway(BaseGateway):
     vn.py用于连接rpc服务的接口。
     """
 
+    default_name: str = "RPC"
+
     default_setting: Dict[str, str] = {
         "主动请求地址": "tcp://127.0.0.1:2014",
         "推送订阅地址": "tcp://127.0.0.1:4102"
@@ -25,9 +27,9 @@ class RpcGateway(BaseGateway):
 
     exchanges: List[Exchange] = list(Exchange)
 
-    def __init__(self, event_engine) -> None:
+    def __init__(self, event_engine, gateway_name: str) -> None:
         """构造函数"""
-        super().__init__(event_engine, "RPC")
+        super().__init__(event_engine, gateway_name)
 
         self.symbol_gateway_map: Dict[str, str] = {}
 
