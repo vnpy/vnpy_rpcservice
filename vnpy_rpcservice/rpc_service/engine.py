@@ -16,7 +16,7 @@ EVENT_RPC_LOG: str = "eRpcLog"
 
 class RpcEngine(BaseEngine):
     """
-    vn.py的rpc服务引擎。
+    VeighNa的rpc服务引擎。
     """
     setting_filename: str = "rpc_service_setting.json"
 

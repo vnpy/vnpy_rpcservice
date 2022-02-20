@@ -15,7 +15,7 @@ from vnpy.trader.object import BarData
 
 class RpcGateway(BaseGateway):
     """
-    vn.py用于连接rpc服务的接口。
+    VeighNa用于连接rpc服务的接口。
     """
 
     default_name: str = "RPC"
