@@ -13,4 +13,4 @@ class RpcServiceApp(BaseApp):
     display_name = "RPC服务"
     engine_class = RpcEngine
     widget_name = "RpcManager"
-    icon_name = "rpc.ico"
+    icon_name = str(app_path.joinpath("ui", "rpc.ico"))
