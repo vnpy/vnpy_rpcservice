@@ -90,7 +90,7 @@ class RpcEngine(BaseEngine):
         self.write_log("RPC服务启动成功")
         return True
 
-    def stop(self) -> None:
+    def stop(self) -> bool:
         """停止rpc服务"""
         if not self.server.is_active():
             self.write_log("RPC服务未启动")
