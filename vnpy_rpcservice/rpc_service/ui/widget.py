@@ -1,12 +1,13 @@
 from vnpy.event import EventEngine, Event
 from vnpy.trader.engine import MainEngine
+from vnpy.trader.object import LogData
 from vnpy.trader.ui import QtWidgets, QtCore
-from ..engine import APP_NAME, EVENT_RPC_LOG
+from ..engine import APP_NAME, EVENT_RPC_LOG, RpcEngine
 
 
 class RpcManager(QtWidgets.QWidget):
     """"""
-    signal_log = QtCore.pyqtSignal(Event)
+    signal_log: QtCore.pyqtSignal = QtCore.pyqtSignal(Event)
 
     def __init__(self, main_engine: MainEngine, event_engine: EventEngine) -> None:
         """构造函数"""
@@ -15,7 +16,7 @@ class RpcManager(QtWidgets.QWidget):
         self.main_engine: MainEngine = main_engine
         self.event_engine: EventEngine = event_engine
 
-        self.rpc_engine = main_engine.get_engine(APP_NAME)
+        self.rpc_engine: RpcEngine = main_engine.get_engine(APP_NAME)
 
         self.init_ui()
         self.register_event()
@@ -26,38 +27,38 @@ class RpcManager(QtWidgets.QWidget):
         self.setFixedWidth(900)
         self.setFixedHeight(500)
 
-        self.start_button = QtWidgets.QPushButton("启动")
+        self.start_button: QtWidgets.QPushButton = QtWidgets.QPushButton("启动")
         self.start_button.clicked.connect(self.start_server)
 
-        self.stop_button = QtWidgets.QPushButton("停止")
+        self.stop_button: QtWidgets.QPushButton = QtWidgets.QPushButton("停止")
         self.stop_button.clicked.connect(self.stop_server)
         self.stop_button.setEnabled(False)
 
         for button in [self.start_button, self.stop_button]:
-            hint = button.sizeHint()
+            hint: QtCore.QSize = button.sizeHint()
             button.setFixedHeight(hint.height() * 2)
             button.setFixedWidth(hint.width() * 4)
 
-        self.rep_line = QtWidgets.QLineEdit(self.rpc_engine.rep_address)
+        self.rep_line: QtWidgets.QLineEdit = QtWidgets.QLineEdit(self.rpc_engine.rep_address)
         self.rep_line.setFixedWidth(300)
 
-        self.pub_line = QtWidgets.QLineEdit(self.rpc_engine.pub_address)
+        self.pub_line: QtWidgets.QLineEdit = QtWidgets.QLineEdit(self.rpc_engine.pub_address)
         self.pub_line.setFixedWidth(300)
 
-        self.log_monitor = QtWidgets.QTextEdit()
+        self.log_monitor: QtWidgets.QTextEdit = QtWidgets.QTextEdit()
         self.log_monitor.setReadOnly(True)
 
-        form = QtWidgets.QFormLayout()
+        form: QtWidgets.QFormLayout = QtWidgets.QFormLayout()
         form.addRow("请求响应地址", self.rep_line)
         form.addRow("事件广播地址", self.pub_line)
 
-        hbox = QtWidgets.QHBoxLayout()
+        hbox: QtWidgets.QHBoxLayout = QtWidgets.QHBoxLayout()
         hbox.addLayout(form)
         hbox.addWidget(self.start_button)
         hbox.addWidget(self.stop_button)
         hbox.addStretch()
 
-        vbox = QtWidgets.QVBoxLayout()
+        vbox: QtWidgets.QVBoxLayout = QtWidgets.QVBoxLayout()
         vbox.addLayout(hbox)
         vbox.addWidget(self.log_monitor)
 
@@ -71,7 +72,7 @@ class RpcManager(QtWidgets.QWidget):
 
     def process_log_event(self, event: Event) -> None:
         """调用事件"""
-        log = event.data
+        log: LogData = event.data
         msg: str = f"{log.time}\t{log.msg}"
         self.log_monitor.append(msg)
 
@@ -80,14 +81,14 @@ class RpcManager(QtWidgets.QWidget):
         rep_address: str = self.rep_line.text()
         pub_address: str = self.pub_line.text()
 
-        result = self.rpc_engine.start(rep_address, pub_address)
+        result: bool = self.rpc_engine.start(rep_address, pub_address)
         if result:
             self.start_button.setEnabled(False)
             self.stop_button.setEnabled(True)
 
     def stop_server(self) -> None:
         """停止服务"""
-        result = self.rpc_engine.stop()
+        result: bool = self.rpc_engine.stop()
         if result:
             self.start_button.setEnabled(True)
             self.stop_button.setEnabled(False)
