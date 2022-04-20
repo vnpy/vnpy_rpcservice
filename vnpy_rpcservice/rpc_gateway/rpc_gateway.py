@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from vnpy.event import Event
 from vnpy.rpc import RpcClient
@@ -10,7 +10,14 @@ from vnpy.trader.object import (
     OrderRequest
 )
 from vnpy.trader.constant import Exchange
-from vnpy.trader.object import BarData
+from vnpy.trader.object import (
+    BarData,
+    ContractData,
+    AccountData,
+    PositionData,
+    OrderData,
+    TradeData
+)
 
 
 class RpcGateway(BaseGateway):
@@ -78,32 +85,32 @@ class RpcGateway(BaseGateway):
 
     def query_all(self) -> None:
         """查询基础信息"""
-        contracts = self.client.get_all_contracts()
+        contracts: List[ContractData] = self.client.get_all_contracts()
         for contract in contracts:
             self.symbol_gateway_map[contract.vt_symbol] = contract.gateway_name
             contract.gateway_name = self.gateway_name
             self.on_contract(contract)
         self.write_log("合约信息查询成功")
 
-        accounts = self.client.get_all_accounts()
+        accounts: List[AccountData] = self.client.get_all_accounts()
         for account in accounts:
             account.gateway_name = self.gateway_name
             self.on_account(account)
         self.write_log("资金信息查询成功")
 
-        positions = self.client.get_all_positions()
+        positions: List[PositionData] = self.client.get_all_positions()
         for position in positions:
             position.gateway_name = self.gateway_name
             self.on_position(position)
         self.write_log("持仓信息查询成功")
 
-        orders = self.client.get_all_orders()
+        orders: List[OrderData] = self.client.get_all_orders()
         for order in orders:
             order.gateway_name = self.gateway_name
             self.on_order(order)
         self.write_log("委托信息查询成功")
 
-        trades = self.client.get_all_trades()
+        trades: List[TradeData] = self.client.get_all_trades()
         for trade in trades:
             trade.gateway_name = self.gateway_name
             self.on_trade(trade)
@@ -120,7 +127,7 @@ class RpcGateway(BaseGateway):
             print("none event", topic, event)
             return
 
-        data = event.data
+        data: Any = event.data
 
         if hasattr(data, "gateway_name"):
             data.gateway_name = self.gateway_name

@@ -2,15 +2,15 @@ from pathlib import Path
 
 from vnpy.trader.app import BaseApp
 
-from .engine import RpcEngine, APP_NAME
+from .engine import RpcEngine, APP_NAME, BaseEngine
 
 
 class RpcServiceApp(BaseApp):
     """"""
-    app_name = APP_NAME
-    app_module = __module__
-    app_path = Path(__file__).parent
-    display_name = "RPC服务"
-    engine_class = RpcEngine
-    widget_name = "RpcManager"
-    icon_name = str(app_path.joinpath("ui", "rpc.ico"))
+    app_name: str = APP_NAME
+    app_module: str = __module__
+    app_path: Path = Path(__file__).parent
+    display_name: str = "RPC服务"
+    engine_class: BaseEngine = RpcEngine
+    widget_name: str = "RpcManager"
+    icon_name: str = str(app_path.joinpath("ui", "rpc.ico"))
