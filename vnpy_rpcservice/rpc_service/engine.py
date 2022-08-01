@@ -1,5 +1,3 @@
-""""""
-
 import traceback
 from typing import Dict, Optional
 
@@ -9,9 +7,9 @@ from vnpy.trader.engine import BaseEngine, MainEngine
 from vnpy.trader.utility import load_json, save_json
 from vnpy.trader.object import LogData
 
-APP_NAME: str = "RpcService"
+APP_NAME = "RpcService"
 
-EVENT_RPC_LOG: str = "eRpcLog"
+EVENT_RPC_LOG = "eRpcLog"
 
 
 class RpcEngine(BaseEngine):
