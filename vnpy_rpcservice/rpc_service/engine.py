@@ -110,6 +110,8 @@ class RpcEngine(BaseEngine):
     def process_event(self, event: Event) -> None:
         """调用事件"""
         if self.server.is_active():
+            if event.type == "eTimer":
+                return
             self.server.publish("", event)
 
     def write_log(self, msg: str) -> None:
