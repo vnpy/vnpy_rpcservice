@@ -6,6 +6,8 @@ from vnpy.rpc import RpcServer
 from vnpy.trader.engine import BaseEngine, MainEngine
 from vnpy.trader.utility import load_json, save_json
 from vnpy.trader.object import LogData
+from vnpy.trader.event import EVENT_TIMER
+
 
 APP_NAME = "RpcService"
 
@@ -110,7 +112,7 @@ class RpcEngine(BaseEngine):
     def process_event(self, event: Event) -> None:
         """调用事件"""
         if self.server.is_active():
-            if event.type == "eTimer":
+            if event.type == EVENT_TIMER:
                 return
             self.server.publish("", event)
 
