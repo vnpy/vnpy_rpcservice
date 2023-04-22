@@ -95,24 +95,28 @@ class RpcGateway(BaseGateway):
         accounts: List[AccountData] = self.client.get_all_accounts()
         for account in accounts:
             account.gateway_name = self.gateway_name
+            account.__post_init__()
             self.on_account(account)
         self.write_log("资金信息查询成功")
 
         positions: List[PositionData] = self.client.get_all_positions()
         for position in positions:
             position.gateway_name = self.gateway_name
+            position.__post_init__()
             self.on_position(position)
         self.write_log("持仓信息查询成功")
 
         orders: List[OrderData] = self.client.get_all_orders()
         for order in orders:
             order.gateway_name = self.gateway_name
+            order.__post_init__()
             self.on_order(order)
         self.write_log("委托信息查询成功")
 
         trades: List[TradeData] = self.client.get_all_trades()
         for trade in trades:
             trade.gateway_name = self.gateway_name
+            trade.__post_init__()
             self.on_trade(trade)
         self.write_log("成交信息查询成功")
 
@@ -131,5 +135,8 @@ class RpcGateway(BaseGateway):
 
         if hasattr(data, "gateway_name"):
             data.gateway_name = self.gateway_name
+
+        if isinstance(data, (PositionData, AccountData, OrderData, TradeData)):
+            data.__post_init__()
 
         self.event_engine.put(event)
