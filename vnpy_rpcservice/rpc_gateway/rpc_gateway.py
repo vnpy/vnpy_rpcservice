@@ -63,7 +63,13 @@ class RpcGateway(BaseGateway):
     def send_order(self, req: OrderRequest) -> str:
         """委托下单"""
         gateway_name: str = self.symbol_gateway_map.get(req.vt_symbol, "")
-        return self.client.send_order(req, gateway_name)
+        gateway_orderid: str = self.client.send_order(req, gateway_name)
+
+        if gateway_orderid:
+            _, orderid = gateway_orderid.split(".")
+            return f"{self.gateway_name}.{orderid}"
+        else:
+            return gateway_orderid
 
     def cancel_order(self, req: CancelRequest) -> None:
         """委托撤单"""
