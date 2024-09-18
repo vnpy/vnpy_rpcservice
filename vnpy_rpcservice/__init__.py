@@ -26,6 +26,11 @@ import importlib_metadata
 from .rpc_gateway import RpcGateway
 from .rpc_service import RpcServiceApp
 
+from .rpc_datafeed import (
+    RpcDatafeed as Datafeed,
+    DatafeedServer
+)
+
 try:
     __version__ = importlib_metadata.version("vnpy_rpcservice")
 except importlib_metadata.PackageNotFoundError:
