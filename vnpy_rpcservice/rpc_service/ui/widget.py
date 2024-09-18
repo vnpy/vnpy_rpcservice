@@ -2,6 +2,7 @@ from vnpy.event import EventEngine, Event
 from vnpy.trader.engine import MainEngine
 from vnpy.trader.object import LogData
 from vnpy.trader.ui import QtWidgets, QtCore
+
 from ..engine import APP_NAME, EVENT_RPC_LOG, RpcEngine
 
 

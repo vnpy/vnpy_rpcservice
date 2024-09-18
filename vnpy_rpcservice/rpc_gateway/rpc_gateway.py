@@ -1,5 +1,3 @@
-from typing import Any, Dict, List
-
 from vnpy.event import Event
 from vnpy.rpc import RpcClient
 from vnpy.trader.gateway import BaseGateway
@@ -27,18 +25,18 @@ class RpcGateway(BaseGateway):
 
     default_name: str = "RPC"
 
-    default_setting: Dict[str, str] = {
+    default_setting: dict[str, str] = {
         "主动请求地址": "tcp://127.0.0.1:2014",
         "推送订阅地址": "tcp://127.0.0.1:4102"
     }
 
-    exchanges: List[Exchange] = list(Exchange)
+    exchanges: list[Exchange] = list(Exchange)
 
     def __init__(self, event_engine, gateway_name: str) -> None:
         """构造函数"""
         super().__init__(event_engine, gateway_name)
 
-        self.symbol_gateway_map: Dict[str, str] = {}
+        self.symbol_gateway_map: dict[str, str] = {}
 
         self.client: "RpcClient" = RpcClient()
         self.client.callback = self.client_callback
@@ -84,42 +82,42 @@ class RpcGateway(BaseGateway):
         """查询持仓"""
         pass
 
-    def query_history(self, req: HistoryRequest) -> List[BarData]:
+    def query_history(self, req: HistoryRequest) -> list[BarData]:
         """查询历史数据"""
         gateway_name: str = self.symbol_gateway_map.get(req.vt_symbol, "")
         return self.client.query_history(req, gateway_name)
 
     def query_all(self) -> None:
         """查询基础信息"""
-        contracts: List[ContractData] = self.client.get_all_contracts()
+        contracts: list[ContractData] = self.client.get_all_contracts()
         for contract in contracts:
             self.symbol_gateway_map[contract.vt_symbol] = contract.gateway_name
             contract.gateway_name = self.gateway_name
             self.on_contract(contract)
         self.write_log("合约信息查询成功")
 
-        accounts: List[AccountData] = self.client.get_all_accounts()
+        accounts: list[AccountData] = self.client.get_all_accounts()
         for account in accounts:
             account.gateway_name = self.gateway_name
             account.__post_init__()
             self.on_account(account)
         self.write_log("资金信息查询成功")
 
-        positions: List[PositionData] = self.client.get_all_positions()
+        positions: list[PositionData] = self.client.get_all_positions()
         for position in positions:
             position.gateway_name = self.gateway_name
             position.__post_init__()
             self.on_position(position)
         self.write_log("持仓信息查询成功")
 
-        orders: List[OrderData] = self.client.get_all_orders()
+        orders: list[OrderData] = self.client.get_all_orders()
         for order in orders:
             order.gateway_name = self.gateway_name
             order.__post_init__()
             self.on_order(order)
         self.write_log("委托信息查询成功")
 
-        trades: List[TradeData] = self.client.get_all_trades()
+        trades: list[TradeData] = self.client.get_all_trades()
         for trade in trades:
             trade.gateway_name = self.gateway_name
             trade.__post_init__()
@@ -137,7 +135,7 @@ class RpcGateway(BaseGateway):
             print("none event", topic, event)
             return
 
-        data: Any = event.data
+        data: object = event.data
 
         if hasattr(data, "gateway_name"):
             data.gateway_name = self.gateway_name

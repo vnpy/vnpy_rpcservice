@@ -1,5 +1,5 @@
 import traceback
-from typing import Dict, Optional
+from typing import Optional
 
 from vnpy.event import Event, EventEngine
 from vnpy.rpc import RpcServer
@@ -58,13 +58,13 @@ class RpcEngine(BaseEngine):
 
     def load_setting(self) -> None:
         """读取配置文件"""
-        setting: Dict[str, str] = load_json(self.setting_filename)
+        setting: dict[str, str] = load_json(self.setting_filename)
         self.rep_address = setting.get("rep_address", self.rep_address)
         self.pub_address = setting.get("pub_address", self.pub_address)
 
     def save_setting(self) -> None:
         """保存配置文件"""
-        setting: Dict[str, str] = {
+        setting: dict[str, str] = {
             "rep_address": self.rep_address,
             "pub_address": self.pub_address
         }
