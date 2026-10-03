@@ -1,3 +1,4 @@
+"""把 RPC 客户端封装成交易接口。"""
 from vnpy.event import Event
 from vnpy.rpc import RpcClient
 from vnpy.trader.gateway import BaseGateway
@@ -20,9 +21,7 @@ from vnpy.trader.object import (
 
 
 class RpcGateway(BaseGateway):
-    """
-    VeighNa用于连接rpc服务的接口。
-    """
+    """VeighNa用于连接rpc服务的接口。"""
 
     default_name: str = "RPC"
 

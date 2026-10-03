@@ -1,3 +1,4 @@
+"""对外提供 RPC 请求和推送的服务引擎。"""
 import traceback
 
 from vnpy.event import Event, EventEngine
@@ -14,9 +15,7 @@ EVENT_RPC_LOG = "eRpcLog"
 
 
 class RpcEngine(BaseEngine):
-    """
-    VeighNa的rpc服务引擎。
-    """
+    """VeighNa的rpc服务引擎。"""
     setting_filename: str = "rpc_service_setting.json"
 
     def __init__(self, main_engine: MainEngine, event_engine: EventEngine) -> None:

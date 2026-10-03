@@ -1,3 +1,4 @@
+"""通过 RPC 查询历史数据的客户端，以及对外提供查询的服务端。"""
 from collections.abc import Callable
 
 from vnpy.rpc import RpcClient, RpcServer
@@ -14,7 +15,7 @@ class RpcDatafeed(BaseDatafeed):
     """RPC数据服务"""
 
     def __init__(self) -> None:
-        """"""
+        """把数据服务配置中的用户名和密码分别记为请求地址和订阅地址。"""
         self.req_address: str = SETTINGS["datafeed.username"]
         self.sub_address: str = SETTINGS["datafeed.password"]
 

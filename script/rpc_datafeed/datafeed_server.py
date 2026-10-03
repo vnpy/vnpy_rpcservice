@@ -1,3 +1,4 @@
+"""启动 RPC 数据服务的示例脚本。"""
 from vnpy.event import EventEngine
 from vnpy_rpcservice import DatafeedServer
 
@@ -7,7 +8,7 @@ PUB_ADDRESS = "tcp://*:66002"
 
 
 def main() -> None:
-    """"""
+    """启动事件引擎和数据服务，按下回车后停止。"""
     event_engine = EventEngine()
     event_engine.start()
 

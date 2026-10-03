@@ -1,3 +1,4 @@
+"""把数据服务指到本机 RPC 后，启动带 CTP、CTA 策略和 CTA 回测的交易终端。"""
 from vnpy.event import EventEngine
 from vnpy.trader.engine import MainEngine
 from vnpy.trader.ui import MainWindow, create_qapp

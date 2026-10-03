@@ -1,3 +1,4 @@
+"""RPC 服务管理界面。"""
 from vnpy.event import EventEngine, Event
 from vnpy.trader.engine import MainEngine
 from vnpy.trader.object import LogData
@@ -7,7 +8,7 @@ from ..engine import APP_NAME, EVENT_RPC_LOG, RpcEngine
 
 
 class RpcManager(QtWidgets.QWidget):
-    """"""
+    """RPC 服务管理界面。"""
     signal_log: QtCore.Signal = QtCore.Signal(Event)
 
     def __init__(self, main_engine: MainEngine, event_engine: EventEngine) -> None:

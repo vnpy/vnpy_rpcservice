@@ -1,3 +1,4 @@
+"""RPC 服务应用包。"""
 from pathlib import Path
 
 from vnpy.trader.app import BaseApp
@@ -13,7 +14,7 @@ __all__ = [
 
 
 class RpcServiceApp(BaseApp):
-    """"""
+    """RPC 服务应用。"""
     app_name: str = APP_NAME
     app_module: str = __module__
     app_path: Path = Path(__file__).parent
