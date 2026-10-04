@@ -1,4 +1,6 @@
 """RPC 服务管理界面。"""
+from typing import cast
+
 from vnpy.event import EventEngine, Event
 from vnpy.trader.engine import MainEngine
 from vnpy.trader.object import LogData
@@ -18,7 +20,7 @@ class RpcManager(QtWidgets.QWidget):
         self.main_engine: MainEngine = main_engine
         self.event_engine: EventEngine = event_engine
 
-        self.rpc_engine: RpcEngine = main_engine.get_engine(APP_NAME)
+        self.rpc_engine: RpcEngine = cast(RpcEngine, main_engine.get_engine(APP_NAME))
 
         self.init_ui()
         self.register_event()

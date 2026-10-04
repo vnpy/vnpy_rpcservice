@@ -25,7 +25,7 @@ class RpcGateway(BaseGateway):
 
     default_name: str = "RPC"
 
-    default_setting: dict[str, str] = {
+    default_setting: dict[str, str | int | float | bool] = {
         "主动请求地址": "tcp://127.0.0.1:2014",
         "推送订阅地址": "tcp://127.0.0.1:4102"
     }
@@ -39,7 +39,7 @@ class RpcGateway(BaseGateway):
         self.symbol_gateway_map: dict[str, str] = {}
 
         self.client: RpcClient = RpcClient()
-        self.client.callback = self.client_callback
+        object.__setattr__(self.client, "callback", self.client_callback)
 
     def connect(self, setting: dict) -> None:
         """连接交易接口"""

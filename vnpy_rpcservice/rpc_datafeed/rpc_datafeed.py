@@ -1,5 +1,6 @@
 """通过 RPC 查询历史数据的客户端，以及对外提供查询的服务端。"""
 from collections.abc import Callable
+from typing import cast
 
 from vnpy.rpc import RpcClient, RpcServer
 from vnpy.event import Event
@@ -20,7 +21,7 @@ class RpcDatafeed(BaseDatafeed):
         self.sub_address: str = SETTINGS["datafeed.password"]
 
         self.inited: bool = False
-        self.client: RpcClient = None
+        self.client: RpcClient | None = None
 
     def __del__(self) -> None:
         """对象析构"""
@@ -37,10 +38,11 @@ class RpcDatafeed(BaseDatafeed):
             output("RPC数据服务初始化失败，请检查连接地址！")
             return False
 
-        self.client = RpcClient()
-        self.client.callback = lambda topic, data: None
-        self.client.subscribe_topic("")
-        self.client.start(self.req_address, self.sub_address)
+        client: RpcClient = RpcClient()
+        object.__setattr__(client, "callback", lambda topic, data: None)
+        client.subscribe_topic("")
+        client.start(self.req_address, self.sub_address)
+        self.client = client
 
         return True
 
@@ -51,7 +53,8 @@ class RpcDatafeed(BaseDatafeed):
             if not n:
                 return []
 
-        data: list | str = self.client.query_bar_history(req)
+        client: RpcClient = cast(RpcClient, self.client)
+        data: list | str = client.query_bar_history(req)
 
         if isinstance(data, str):
             output(data)
@@ -66,7 +69,8 @@ class RpcDatafeed(BaseDatafeed):
             if not n:
                 return []
 
-        data: list | str = self.client.query_tick_history(req)
+        client: RpcClient = cast(RpcClient, self.client)
+        data: list | str = client.query_tick_history(req)
 
         if isinstance(data, str):
             output(data)
