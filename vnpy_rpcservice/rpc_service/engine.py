@@ -9,9 +9,9 @@ from vnpy.trader.object import LogData
 from vnpy.trader.event import EVENT_TIMER
 
 
-APP_NAME = "RpcService"
+APP_NAME: str = "RpcService"
 
-EVENT_RPC_LOG = "eRpcLog"
+EVENT_RPC_LOG: str = "eRpcLog"
 
 
 class RpcEngine(BaseEngine):

@@ -64,6 +64,7 @@ class RpcGateway(BaseGateway):
         gateway_orderid: str = self.client.send_order(req, gateway_name)
 
         if gateway_orderid:
+            orderid: str
             _, orderid = gateway_orderid.split(".")
             return f"{self.gateway_name}.{orderid}"
         else:
@@ -91,6 +92,7 @@ class RpcGateway(BaseGateway):
     def query_all(self) -> None:
         """查询基础信息"""
         contracts: list[ContractData] = self.client.get_all_contracts()
+        contract: ContractData
         for contract in contracts:
             self.symbol_gateway_map[contract.vt_symbol] = contract.gateway_name
             contract.gateway_name = self.gateway_name
@@ -98,6 +100,7 @@ class RpcGateway(BaseGateway):
         self.write_log("合约信息查询成功")
 
         accounts: list[AccountData] = self.client.get_all_accounts()
+        account: AccountData
         for account in accounts:
             account.gateway_name = self.gateway_name
             account.__post_init__()
@@ -105,6 +108,7 @@ class RpcGateway(BaseGateway):
         self.write_log("资金信息查询成功")
 
         positions: list[PositionData] = self.client.get_all_positions()
+        position: PositionData
         for position in positions:
             position.gateway_name = self.gateway_name
             position.__post_init__()
@@ -112,6 +116,7 @@ class RpcGateway(BaseGateway):
         self.write_log("持仓信息查询成功")
 
         orders: list[OrderData] = self.client.get_all_orders()
+        order: OrderData
         for order in orders:
             order.gateway_name = self.gateway_name
             order.__post_init__()
@@ -119,6 +124,7 @@ class RpcGateway(BaseGateway):
         self.write_log("委托信息查询成功")
 
         trades: list[TradeData] = self.client.get_all_trades()
+        trade: TradeData
         for trade in trades:
             trade.gateway_name = self.gateway_name
             trade.__post_init__()

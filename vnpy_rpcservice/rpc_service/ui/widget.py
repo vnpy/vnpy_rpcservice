@@ -38,6 +38,7 @@ class RpcManager(QtWidgets.QWidget):
         self.stop_button.clicked.connect(self.stop_server)
         self.stop_button.setEnabled(False)
 
+        button: QtWidgets.QPushButton
         for button in [self.start_button, self.stop_button]:
             hint: QtCore.QSize = button.sizeHint()
             button.setFixedHeight(hint.height() * 2)
